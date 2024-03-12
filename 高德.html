@@ -1,0 +1,27 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+    <title>Document</title>  
+    <style>
+        #container {
+            height:100%;
+            width:100%;
+        }
+    </style> 
+</head>  
+<body>  
+    <div id="container"></div>
+    <script
+    src="https://webapi.amap.com/maps?v=1.4.15&key=b53fb3c7832131eaeb6a5683f58a643f"
+    ></script>
+    <script type="text/javascript">
+    //地图初始化应该在地图容器div已经添加到DOM树之后
+    var map = new AMap.Map("container", {
+        center: [117.000923,36.675807],
+        zoom: 12
+    }); 
+    </script> 
+</body>  
+</html>

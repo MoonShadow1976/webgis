@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>高德地图示例</title>
+    <style>
+        #map-container {
+            height: 500px;
+            width: 100%;
+        }
+
+        #circle-radius-input {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>外星人狙击地图模拟器 Aliens Shoot Earth Stimulator</h1>
+    <div id="map-container"></div>
+
+    <label for="circle-radius-input">画圈半径（米）Circle radius(meter):</label>
+    <input type="number" id="circle-radius-input" value="500">
+
+    <button onclick="drawCircle()">狙击 Shoot</button>
+
+    <button onclick="moveToWuhan()">移动到武汉 Move To Wuhan</button>
+
+    <!-- 添加 audio 元素用于播放音频 -->
+    <audio id="audio" src="/audios/biu.m4a"></audio>
+
+    <script src="https://webapi.amap.com/maps?v=1.4.15&key=8676ae7a14dc3057f3761e62f24fcae5"></script>
+    <script>
+        // 初始化地图
+        var map = new AMap.Map('map-container', {
+            center: [116.397428, 39.90923], // 设置地图中心点坐标
+            zoom: 13 // 设置地图缩放级别
+        });
+
+        // 添加一个简单的图层，例如标注点
+        var marker = new AMap.Marker({
+            position: [116.397428, 39.90923], // 设置标注点坐标
+            map: map // 将标注点添加到地图上
+        });
+
+        var circle;
+
+        function moveToWuhan() {
+            // 移动地图到武汉的坐标
+            map.setCenter([114.305393, 30.593099]);
+            map.setZoom(13); // 设置缩放级别，根据需要调整
+        };
+
+        function drawCircle() {
+            var radius = parseInt(document.getElementById('circle-radius-input').value);
+            
+            // 清除之前的圈和标记
+            if (circle) {
+                circle.setMap(null);
+            }
+
+            // 获取圈的中心点坐标
+            var center = map.getCenter();
+
+            // 创建圈
+            circle = new AMap.Circle({
+                center: center,
+                radius: radius,
+                map: map
+            });
+
+            // 显示圈内的地铁站
+            showSubwayStations(center, radius);
+
+            // 播放音频
+            playAudio();
+        }
+
+        function showSubwayStations(center, radius) {
+            // 示例：通过高德地图的服务获取圈内的地铁站数据
+            AMap.service(['AMap.PlaceSearch'], function () {
+                var placeSearch = new AMap.PlaceSearch({
+                    pageSize: 5,
+                    pageIndex: 1,
+                    city: '武汉', // 设置查询城市
+                    map: map
+                });
+
+                // 执行查询
+                placeSearch.searchNearBy('地铁站', center, radius, function (status, result) {
+                    // 处理查询结果，您可以根据实际需求进行处理
+                    if (status === 'complete' && result.info === 'OK') {
+                        console.log(result.poiList);
+                    }
+                });
+            });
+        }
+
+        function playAudio() {
+            var audio = document.getElementById('audio');
+            audio.play();
+        }
+    </script>
+</body>
+</html>

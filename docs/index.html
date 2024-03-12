@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>1</title>
+  <style>
+    #map-container {
+      height: 1000px;
+      width: 100%;
+    }
+  </style>
+  <script src="https://webapi.amap.com/maps?v=1.4.15&key=8676ae7a14dc3057f3761e62f24fcae5"></script>
+  
+</head>
+<body>
+  <div id="map-container"></div>
+  <script type="text/javascript">
+    // 初始化地图
+    var map = new AMap.Map('map-container', {
+      center: [114.305393, 30.593099], // 设置地图中心点坐标
+      zoom: 13 // 设置地图缩放级别
+    });
+
+    // 加载 Geojson 数据
+    ajax('https://a.amap.com/jsapi_demos/static/geojson/chongqing.json', function(err, geoJSON) {
+      if (!err) {
+          var geojson = new AMap.GeoJSON({
+              geoJSON: geoJSON,
+              // 还可以自定义getMarker和getPolyline
+              getPolygon: function(geojson, lnglats) {
+                  // 计算面积
+                  var area = AMap.GeometryUtil.ringArea(lnglats[0])
+
+                  return new AMap.Polygon({
+                      path: lnglats,
+                      fillOpacity: 1 - Math.sqrt(area / 8000000000),// 面积越大透明度越高
+                      strokeColor: 'white',
+                      fillColor: 'red'
+                  });
+              }
+          });
+          map.add(geojson);
+          log.success('GeoJSON 数据加载完成')
+      } else {
+          log.error('GeoJSON 服务请求失败')
+       }
+  })
+  </script>
+</body>
+</html>
