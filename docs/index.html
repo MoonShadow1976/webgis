@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-cmn-Hans">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,11 +19,11 @@
     // 初始化地图
     var map = new AMap.Map('map-container', {
       center: [114.305393, 30.593099], // 设置地图中心点坐标
-      zoom: 13 // 设置地图缩放级别
+      zoom: 11 // 设置地图缩放级别
     });
 
     // 加载 Geojson 数据
-    ajax('https://a.amap.com/jsapi_demos/static/geojson/chongqing.json', function(err, geoJSON) {
+    ajax('https://github.com/MoonShadow1976/webgis/blob/main/geojson_whu/whu.geojson', function(err, geoJSON) {
       if (!err) {
           var geojson = new AMap.GeoJSON({
               geoJSON: geoJSON,
