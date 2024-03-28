@@ -50,7 +50,7 @@ function Action(json) {
   }
   function onCreatePolyline(lnglats) {
     const styleRow = {
-      strokeColor: '#00E1FF',
+      strokeColor: '#000000',
       strokeOpacity: 0.5,
       strokeWeight: 2,
       fillColor: '#003666',
