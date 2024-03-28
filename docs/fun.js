@@ -27,7 +27,7 @@ function Action(json) {
       fillColor: '#003666',
       fillOpacity: 0.5
     }
-    const POLY = new AMap.Polygon({
+    const POLY = new AMap.Polyline({
       path: lnglats,
       bubble: true,
       cursor: 'pointer',
